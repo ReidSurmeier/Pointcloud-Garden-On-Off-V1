@@ -1,0 +1,38 @@
+#  ____  _____ ___ ____    ____  _   _ ____  __  __ _____ ___ _____ ____
+# |  _ \| ____|_ _|  _ \  / ___|| | | |  _ \|  \/  | ____|_ _| ____|  _ \
+# | |_) |  _|  | || | | | \___ \| | | | |_) | |\/| |  _|  | ||  _| | |_) |
+# |  _ <| |___ | || |_| |  ___) | |_| |  _ <| |  | | |___ | || |___|  _ <
+# |_| \_\_____|___|____/  |____/ \___/|_| \_\_|  |_|_____|___|_____|_| \_\
+#
+# Author:  Reid Surmeier
+# Client:  Clement Valla
+# Date:    2026 Feb 16th
+#
+# Matrix Controller Configuration
+# GPIO pins and behavior settings
+
+# Button GPIO pins (pressed = connect to GND, pull-up enabled)
+buttons:
+  start_pin: 18      # GPIO pin for START button
+  stop_pin: 19       # GPIO pin for STOP button
+  debounce_ms: 80    # Debounce time in milliseconds
+
+# Relay/SSR control
+relay:
+  pin: 20            # GPIO pin for relay control
+  active_high: true  # true = HIGH turns relay ON, false = LOW turns relay ON
+
+# UPS monitoring
+ups:
+  mode: "gpio"       # "disabled" or "gpio"
+  mains_lost_pin: 21 # GPIO pin for UPS mains-lost signal (only used if mode=gpio)
+  edge: "rising"     # "rising" or "falling" - which edge triggers shutdown
+                     # Typically: rising = mains lost, falling = mains restored
+
+# LED service
+led_service:
+  name: "matrix-led.service"  # Systemd service name
+
+# Logging
+logging:
+  level: "INFO"      # DEBUG, INFO, WARNING, ERROR

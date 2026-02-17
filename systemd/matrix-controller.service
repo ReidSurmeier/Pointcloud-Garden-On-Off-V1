@@ -1,0 +1,41 @@
+#  ____  _____ ___ ____    ____  _   _ ____  __  __ _____ ___ _____ ____
+# |  _ \| ____|_ _|  _ \  / ___|| | | |  _ \|  \/  | ____|_ _| ____|  _ \
+# | |_) |  _|  | || | | | \___ \| | | | |_) | |\/| |  _|  | ||  _| | |_) |
+# |  _ <| |___ | || |_| |  ___) | |_| |  _ <| |  | | |___ | || |___|  _ <
+# |_| \_\_____|___|____/  |____/ \___/|_| \_\_|  |_|_____|___|_____|_| \_\
+#
+# Author:  Reid Surmeier
+# Client:  Clement Valla
+# Date:    2026 Feb 16th
+
+[Unit]
+Description=Matrix Controller Daemon
+Documentation=file:///usr/share/doc/matrix-controller/README.md
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -m controller.main --config /etc/matrix-controller/controller.yaml
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=matrix-controller
+
+# Run as root to access GPIO and systemctl
+User=root
+Group=root
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+# Allow systemctl commands and shutdown
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_SYS_BOOT
+AmbientCapabilities=CAP_SYS_ADMIN CAP_SYS_BOOT
+
+[Install]
+WantedBy=multi-user.target
